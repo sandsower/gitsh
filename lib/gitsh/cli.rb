@@ -24,7 +24,7 @@ module Gitsh
       if unparsed_args.any?
         exit_with_usage_message
       else
-        interactive_runner.run_interactive
+        interactive_runner.run
       end
     end
 

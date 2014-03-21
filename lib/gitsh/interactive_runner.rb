@@ -14,7 +14,7 @@ module Gitsh
       @interpreter = opts.fetch(:interpreter, Interpreter.new(@env))
     end
 
-    def run_interactive
+    def run
       history.load
       setup_readline
       greet_user

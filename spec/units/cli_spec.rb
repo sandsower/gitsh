@@ -5,7 +5,7 @@ describe Gitsh::CLI do
   describe '#run' do
     context 'with valid arguments' do
       it 'calls the interactive runner' do
-        interactive_runner = stub('InteractiveRunner', run_interactive: nil)
+        interactive_runner = stub('InteractiveRunner', run: nil)
         cli = Gitsh::CLI.new(
           args: [],
           interactive_runner: interactive_runner
@@ -13,7 +13,7 @@ describe Gitsh::CLI do
 
         cli.run
 
-        expect(interactive_runner).to have_received(:run_interactive)
+        expect(interactive_runner).to have_received(:run)
       end
     end
 

@@ -2,24 +2,24 @@ require 'spec_helper'
 require 'gitsh/interactive_runner'
 
 describe Gitsh::InteractiveRunner do
-  describe '#run_interactive' do
+  describe '#run' do
     it 'loads the history' do
       runner = build_interactive_runner
-      runner.run_interactive
+      runner.run
 
       expect(history).to have_received(:load)
     end
 
     it 'saves the history' do
       runner = build_interactive_runner
-      runner.run_interactive
+      runner.run
 
       expect(history).to have_received(:save)
     end
 
     it 'sets up readline' do
       runner = build_interactive_runner
-      runner.run_interactive
+      runner.run
 
       expect(readline).to have_received(:completion_append_character=)
       expect(readline).to have_received(:completion_proc=)
@@ -35,7 +35,7 @@ describe Gitsh::InteractiveRunner do
         then.raises(SystemExit)
 
       begin
-        runner.run_interactive
+        runner.run
       rescue SystemExit
       end
 
