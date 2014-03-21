@@ -47,7 +47,12 @@ describe Gitsh::InteractiveRunner do
   end
 
   def build_interactive_runner
-    Gitsh::InteractiveRunner.new(history, readline, env, interpreter)
+    Gitsh::InteractiveRunner.new(
+      interpreter: interpreter,
+      readline: readline,
+      history: history,
+      env: env
+    )
   end
 
   def history

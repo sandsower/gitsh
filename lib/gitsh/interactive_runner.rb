@@ -1,12 +1,13 @@
 require 'gitsh/completer'
+require 'gitsh/interpreter'
 
 module Gitsh
   class InteractiveRunner
-    def initialize(history, readline, env, interpreter)
-      @history = history
-      @readline = readline
-      @env = env
-      @interpreter = interpreter
+    def initialize(opts)
+      @history = opts[:history]
+      @readline = opts[:readline]
+      @env = opts[:env]
+      @interpreter = opts[:interpreter]
     end
 
     def run_interactive

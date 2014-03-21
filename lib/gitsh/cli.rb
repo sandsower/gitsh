@@ -22,7 +22,12 @@ module Gitsh
       @readline = ReadlineBlankFilter.new(opts.fetch(:readline, Readline))
       @unparsed_args = opts.fetch(:args, ARGV).clone
       @history = opts.fetch(:history, History.new(@env, @readline))
-      @interactive_runner = InteractiveRunner.new(@history, @readline, @env, @interpreter)
+      @interactive_runner = opts.fetch(:interactive_runner, InteractiveRunner.new(
+        interpreter: @interpreter,
+        history: @history,
+        readline: @readline,
+        env: @env
+      ))
     end
 
     def run
