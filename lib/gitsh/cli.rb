@@ -16,10 +16,9 @@ module Gitsh
 
     def initialize(opts={})
       $PROGRAM_NAME = PROGRAM_NAME
-      interpreter_factory = opts.fetch(:interpreter_factory, Interpreter)
 
       @env = opts.fetch(:env, Environment.new)
-      @interpreter = interpreter_factory.new(@env)
+      @interpreter = opts.fetch(:interpreter, Interpreter.new(@env))
       @readline = ReadlineBlankFilter.new(opts.fetch(:readline, Readline))
       @unparsed_args = opts.fetch(:args, ARGV).clone
       @history = opts.fetch(:history, History.new(@env, @readline))
@@ -31,17 +30,13 @@ module Gitsh
       if unparsed_args.any?
         exit_with_usage_message
       else
-        run_interactive
+        interactive_runner.run_interactive
       end
     end
 
     private
 
-    attr_reader :env, :readline, :unparsed_args, :interpreter, :history
-
-    def run_interactive
-      @interactive_runner.run_interactive
-    end
+    attr_reader :env, :unparsed_args, :interactive_runner
 
     def exit_with_usage_message
       env.puts_error option_parser.banner

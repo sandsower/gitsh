@@ -21,7 +21,6 @@ describe Gitsh::CLI do
       then.raises(SystemExit)
 
     interpreter = stub('interpreter', execute: nil)
-    interpreter_factory = stub('interpreter factory', new: interpreter)
 
     history = stub('history', load: nil, save: nil)
 
@@ -29,7 +28,7 @@ describe Gitsh::CLI do
       args: [],
       env: env,
       readline: readline,
-      interpreter_factory: interpreter_factory,
+      interpreter: interpreter,
       history: history
     )
     begin
