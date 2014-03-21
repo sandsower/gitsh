@@ -1,13 +1,17 @@
+require 'readline'
 require 'gitsh/completer'
+require 'gitsh/history'
 require 'gitsh/interpreter'
+require 'gitsh/prompter'
+require 'gitsh/readline_blank_filter'
 
 module Gitsh
   class InteractiveRunner
     def initialize(opts)
-      @history = opts[:history]
-      @readline = opts[:readline]
+      @readline = ReadlineBlankFilter.new(opts.fetch(:readline, Readline))
       @env = opts[:env]
-      @interpreter = opts[:interpreter]
+      @history = opts.fetch(:history, History.new(@env, @readline))
+      @interpreter = opts.fetch(:interpreter, Interpreter.new(@env))
     end
 
     def run_interactive

@@ -1,13 +1,10 @@
 require 'readline'
 require 'optparse'
 require 'gitsh/environment'
-require 'gitsh/history'
-require 'gitsh/interpreter'
-require 'gitsh/prompter'
+require 'gitsh/interactive_runner'
+require 'gitsh/program_name'
 require 'gitsh/readline_blank_filter'
 require 'gitsh/version'
-require 'gitsh/program_name'
-require 'gitsh/interactive_runner'
 
 module Gitsh
   class CLI
@@ -18,13 +15,9 @@ module Gitsh
       $PROGRAM_NAME = PROGRAM_NAME
 
       @env = opts.fetch(:env, Environment.new)
-      @interpreter = opts.fetch(:interpreter, Interpreter.new(@env))
       @readline = ReadlineBlankFilter.new(opts.fetch(:readline, Readline))
       @unparsed_args = opts.fetch(:args, ARGV).clone
-      @history = opts.fetch(:history, History.new(@env, @readline))
       @interactive_runner = opts.fetch(:interactive_runner, InteractiveRunner.new(
-        interpreter: @interpreter,
-        history: @history,
         readline: @readline,
         env: @env
       ))
