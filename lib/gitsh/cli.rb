@@ -1,6 +1,5 @@
 require 'readline'
 require 'optparse'
-require 'gitsh/completer'
 require 'gitsh/environment'
 require 'gitsh/history'
 require 'gitsh/interpreter'
@@ -8,6 +7,7 @@ require 'gitsh/prompter'
 require 'gitsh/readline_blank_filter'
 require 'gitsh/version'
 require 'gitsh/program_name'
+require 'gitsh/interactive_runner'
 
 module Gitsh
   class CLI
@@ -23,6 +23,7 @@ module Gitsh
       @readline = ReadlineBlankFilter.new(opts.fetch(:readline, Readline))
       @unparsed_args = opts.fetch(:args, ARGV).clone
       @history = opts.fetch(:history, History.new(@env, @readline))
+      @interactive_runner = InteractiveRunner.new(@history, @readline, @env)
     end
 
     def run
@@ -39,17 +40,13 @@ module Gitsh
     attr_reader :env, :readline, :unparsed_args, :interpreter, :history
 
     def run_interactive
-      history.load
-      setup_readline
+      @interactive_runner.run_interactive
+    #  history.load
+    #  setup_readline
       greet_user
       interactive_loop
     ensure
       history.save
-    end
-
-    def setup_readline
-      readline.completion_append_character = nil
-      readline.completion_proc = Completer.new(readline, env)
     end
 
     def interactive_loop
