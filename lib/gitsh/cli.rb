@@ -23,7 +23,7 @@ module Gitsh
       @readline = ReadlineBlankFilter.new(opts.fetch(:readline, Readline))
       @unparsed_args = opts.fetch(:args, ARGV).clone
       @history = opts.fetch(:history, History.new(@env, @readline))
-      @interactive_runner = InteractiveRunner.new(@history, @readline, @env)
+      @interactive_runner = InteractiveRunner.new(@history, @readline, @env, @interpreter)
     end
 
     def run
@@ -41,44 +41,6 @@ module Gitsh
 
     def run_interactive
       @interactive_runner.run_interactive
-    #  history.load
-    #  setup_readline
-      greet_user
-      interactive_loop
-    ensure
-      history.save
-    end
-
-    def interactive_loop
-      while command = read_command
-        interpreter.execute(command)
-      end
-      env.print "\n"
-    rescue Interrupt
-      env.print "\n"
-      retry
-    end
-
-    def read_command
-      command = readline.readline(prompt, true)
-      if command && command.empty?
-        env.fetch('gitsh.defaultCommand', 'status')
-      else
-        command
-      end
-    end
-
-    def prompt
-      prompter.prompt
-    end
-
-    def prompter
-      @prompter ||= Prompter.new(env: env, color: color_support?)
-    end
-
-    def color_support?
-      output, error, exit_status = Open3.capture3('tput colors')
-      exit_status.success? && output.chomp.to_i > 0
     end
 
     def exit_with_usage_message
@@ -109,12 +71,6 @@ module Gitsh
           env.puts opts
           exit EX_OK
         end
-      end
-    end
-
-    def greet_user
-      unless env['gitsh.noGreeting'] == 'true'
-        env.puts "gitsh #{Gitsh::VERSION}\nType :exit to exit"
       end
     end
   end
