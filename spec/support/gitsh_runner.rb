@@ -37,10 +37,14 @@ class GitshRunner
         options.fetch(:settings, {}).each do |key, value|
           env[key] = value
         end
+        interactive_runner = Gitsh::InteractiveRunner.new(
+          readline: readline,
+          env: env
+        )
         cli = Gitsh::CLI.new(
           args: options.fetch(:args, []),
           env: env,
-          readline: readline
+          interactive_runner: interactive_runner
         )
         begin
           cli.run
