@@ -37,7 +37,7 @@ module Gitsh
         env.puts "gitsh #{Gitsh::VERSION}\nType :exit to exit"
       end
     end
-    
+
     def interactive_loop
       while command = read_command
         interpreter.execute(command)
