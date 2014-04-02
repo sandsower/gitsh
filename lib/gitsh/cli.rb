@@ -14,9 +14,10 @@ module Gitsh
 
       @env = opts.fetch(:env, Environment.new)
       @unparsed_args = opts.fetch(:args, ARGV).clone
-      @interactive_runner = opts.fetch(:interactive_runner, InteractiveRunner.new(
-        env: @env
-      ))
+      @interactive_runner = opts.fetch(
+        :interactive_runner,
+        InteractiveRunner.new(env: @env)
+      )
     end
 
     def run
