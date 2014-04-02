@@ -68,7 +68,7 @@ describe Gitsh::InteractiveRunner do
   end
 
   def env
-   @env ||= stub('Environment', {
+    @env ||= stub('Environment', {
       print: nil,
       puts: nil,
       repo_initialized?: false,
